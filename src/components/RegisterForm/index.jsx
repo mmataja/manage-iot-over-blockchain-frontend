@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles'
 import { Container, AppBar, Toolbar, TextField, Button } from '@material-ui/core';
@@ -17,8 +18,13 @@ export class RegisterForm extends Component {
     this.setState({ [input]: e.target.value });
   }
 
-  submitRegister = () => {
-    console.log("Registrirao si se");
+  submitRegister = e => {
+    e.preventDefault();
+    console.log(this.state);
+    axios.post("http://localhost:8000/register", this.state)
+      .then(response => console.log(response))
+      .catch(error => console.log(error));
+
   }
 
   render() {
@@ -33,42 +39,51 @@ export class RegisterForm extends Component {
             </Toolbar>
           </AppBar>
           <Container maxWidth="sm">
-            <TextField 
-              id="device-owner"
-              label="Device Owner Name"
-              margin="normal"
-              required={true}
-              onChange={this.handleChange('deviceOwner')}
-            />
-            <br/>
-            <TextField 
-              id="device-name"
-              label="Device Name"
-              margin="normal"
-              onChange={this.handleChange('deviceName')}
-            />
-            <br/>
-            <TextField 
-              id="device-firmware"
-              label="Device Firmware"
-              margin="normal"
-              onChange={this.handleChange('deviceFirmware')}
-            />
-            <br/>
-            <TextField 
-              id="public-key"
-              label="Public Key"
-              margin="normal"
-              onChange={this.handleChange('publicKey')}
-            />
-            <br/>
-            <Button
-              variant="contained" 
-              size="medium"
-              color="primary"
-              style={styles.button}
-              onClick={this.submitRegister}
-            >Register</Button>
+            <form onSubmit={this.submitRegister}>
+              <TextField 
+                id="device-owner"
+                label="Device Owner Name"
+                margin="normal"
+                required={true}
+                onChange={this.handleChange('deviceOwner')}
+                value={deviceOwner}
+              />
+              <br/>
+              <TextField 
+                id="device-name"
+                label="Device Name"
+                margin="normal"
+                onChange={this.handleChange('deviceName')}
+                value={deviceName}
+              />
+              <br/>
+              <TextField 
+                id="device-firmware"
+                label="Device Firmware"
+                margin="normal"
+                onChange={this.handleChange('deviceFirmware')}
+                value={deviceFirmware}
+              />
+              <br/>
+              <TextField 
+                id="public-key"
+                label="Public Key"
+                margin="normal"
+                onChange={this.handleChange('publicKey')}
+                value={publicKey}
+              />
+              <br/>
+              <Button
+                variant="contained"
+                type="submit" 
+                size="medium"
+                color="primary"
+                style={styles.button}
+              >
+                Register
+              </Button>
+            </form>
+
           </Container>
         </React.Fragment>
       </ThemeProvider>
