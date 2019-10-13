@@ -20,11 +20,14 @@ export class RegisterForm extends Component {
 
   submitRegister = e => {
     e.preventDefault();
-    console.log(this.state);
+
+    console.log(this.props.accounts);
+
+/*     
     axios.post("http://localhost:8000/register", this.state)
       .then(response => console.log(response))
       .catch(error => console.log(error));
-
+ */
   }
 
   render() {
