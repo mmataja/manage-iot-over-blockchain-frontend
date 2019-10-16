@@ -18,10 +18,12 @@ export class RegisterForm extends Component {
     this.setState({ [input]: e.target.value });
   }
 
-  submitRegister = e => {
+  submitRegister = async e => {
     e.preventDefault();
 
-    console.log(this.props.accounts);
+    const selectedWalletAddress = await window.web3.eth.getAccounts();
+
+    console.log("publicAddress", selectedWalletAddress);
 
 /*     
     axios.post("http://localhost:8000/register", this.state)
@@ -44,8 +46,8 @@ export class RegisterForm extends Component {
           <Container maxWidth="sm">
             <form onSubmit={this.submitRegister}>
               <TextField 
-                id="device-owner"
-                label="Device Owner Name"
+                id="name"
+                label="Name"
                 margin="normal"
                 required={true}
                 onChange={this.handleChange('deviceOwner')}
@@ -53,19 +55,27 @@ export class RegisterForm extends Component {
               />
               <br/>
               <TextField 
-                id="device-name"
-                label="Device Name"
+                id="owner"
+                label="Owner"
                 margin="normal"
                 onChange={this.handleChange('deviceName')}
                 value={deviceName}
               />
               <br/>
               <TextField 
-                id="device-firmware"
-                label="Device Firmware"
+                id="firmware"
+                label="Firmware Version"
                 margin="normal"
                 onChange={this.handleChange('deviceFirmware')}
                 value={deviceFirmware}
+              />
+              <br/>
+              <TextField 
+                id="url"
+                label="URL"
+                margin="normal"
+                onChange={this.handleChange('publicKey')}
+                value={publicKey}
               />
               <br/>
               <TextField 
