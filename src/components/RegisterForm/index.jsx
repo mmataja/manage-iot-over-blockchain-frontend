@@ -23,13 +23,12 @@ export class RegisterForm extends Component {
 
     const selectedWalletAddress = await window.web3.eth.getAccounts();
 
-    console.log("publicAddress", selectedWalletAddress);
+    const signature = selectedWalletAddress[0] + this.state.deviceFirmware;
 
-/*     
-    axios.post("http://localhost:8000/register", this.state)
+    axios.post("http://localhost:8000/register", {signature, account: selectedWalletAddress[0]})
       .then(response => console.log(response))
       .catch(error => console.log(error));
- */
+
   }
 
   render() {
