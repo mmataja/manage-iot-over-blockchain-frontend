@@ -4,6 +4,8 @@ import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles'
 import { Container, AppBar, Toolbar, TextField, Button } from '@material-ui/core';
 
+import { Styles } from './styles';
+
 const theme = createMuiTheme();
 
 export class RegisterForm extends Component {
@@ -11,6 +13,7 @@ export class RegisterForm extends Component {
     deviceOwner: '',
     deviceName: '',
     deviceFirmware: '',
+    url: '',
     publicKey: '',
   };
 
@@ -24,6 +27,9 @@ export class RegisterForm extends Component {
     const selectedWalletAddress = await window.web3.eth.getAccounts();
 
     const signature = selectedWalletAddress[0] + this.state.deviceFirmware;
+    // TODO
+    // poslati jedan request koji ce generirati ugovor, vratiti response o uspješnoj kreaciji ugovora
+    // zatim poslati request koji će pozvati metodu za registriranje samog uređaja
 
     axios.post("http://localhost:8000/register", {signature, account: selectedWalletAddress[0]})
       .then(response => console.log(response))
@@ -32,7 +38,7 @@ export class RegisterForm extends Component {
   }
 
   render() {
-    const { deviceOwner, deviceName, deviceFirmware, publicKey } = this.state;
+    const { deviceOwner, deviceName, deviceFirmware, url, publicKey } = this.state;
 
     return (
       <ThemeProvider theme={theme}>
@@ -51,6 +57,7 @@ export class RegisterForm extends Component {
                 required={true}
                 onChange={this.handleChange('deviceOwner')}
                 value={deviceOwner}
+                style={Styles.textField}
               />
               <br/>
               <TextField 
@@ -59,6 +66,7 @@ export class RegisterForm extends Component {
                 margin="normal"
                 onChange={this.handleChange('deviceName')}
                 value={deviceName}
+                style={Styles.textField}
               />
               <br/>
               <TextField 
@@ -67,22 +75,28 @@ export class RegisterForm extends Component {
                 margin="normal"
                 onChange={this.handleChange('deviceFirmware')}
                 value={deviceFirmware}
+                style={Styles.textField}
               />
               <br/>
               <TextField 
                 id="url"
                 label="URL"
                 margin="normal"
-                onChange={this.handleChange('publicKey')}
-                value={publicKey}
+                onChange={this.handleChange('url')}
+                value={url}
+                style={Styles.textField}
               />
               <br/>
               <TextField 
                 id="public-key"
                 label="Public Key"
+                multiline
+                rows="6"
                 margin="normal"
                 onChange={this.handleChange('publicKey')}
                 value={publicKey}
+                style={Styles.textField}
+                variant="outlined"
               />
               <br/>
               <Button
@@ -90,9 +104,9 @@ export class RegisterForm extends Component {
                 type="submit" 
                 size="medium"
                 color="primary"
-                style={styles.button}
+                style={styles.button, Styles.textField}
               >
-                Register
+                Register Device
               </Button>
             </form>
 
