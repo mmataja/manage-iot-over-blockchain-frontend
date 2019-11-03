@@ -24,15 +24,25 @@ export class RegisterForm extends Component {
   submitRegister = async e => {
     e.preventDefault();
 
+    const { deviceOwner, deviceName, deviceFirmware, publicKey, url } = this.state;
+
+    const deviceData = JSON.stringify({
+      deviceOwner,
+      deviceName,
+      deviceFirmware,
+      publicKey
+    });
+
     const selectedWalletAddress = await window.web3.eth.getAccounts();
+    
+    const signature = await window.web3.utils.sha3(deviceData);
 
-    const signature = selectedWalletAddress[0] + this.state.deviceFirmware;
-    // TODO
-    // poslati jedan request koji ce generirati ugovor, vratiti response o uspješnoj kreaciji ugovora
-    // zatim poslati request koji će pozvati metodu za registriranje samog uređaja
-
-    axios.post("http://localhost:8000/register", {signature, account: selectedWalletAddress[0]})
-      .then(response => console.log(response))
+    await axios.post("http://localhost:8000/register", {
+      account: selectedWalletAddress[0],
+      signature, 
+      url,
+      publicKey,
+    }).then(response => console.log(response))
       .catch(error => console.log(error));
 
   }
