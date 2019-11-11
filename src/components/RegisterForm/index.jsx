@@ -33,9 +33,12 @@ export class RegisterForm extends Component {
       publicKey
     });
 
+    console.log(deviceData);
+
     const selectedWalletAddress = await window.web3.eth.getAccounts();
     
     const signature = await window.web3.utils.sha3(deviceData);
+    console.log(signature);
 
     await axios.post("http://localhost:8000/register", {
       account: selectedWalletAddress[0],
@@ -65,8 +68,8 @@ export class RegisterForm extends Component {
                 label="Name"
                 margin="normal"
                 required={true}
-                onChange={this.handleChange('deviceOwner')}
-                value={deviceOwner}
+                onChange={this.handleChange('deviceName')}
+                value={deviceName}
                 style={Styles.textField}
               />
               <br/>
@@ -74,8 +77,8 @@ export class RegisterForm extends Component {
                 id="owner"
                 label="Owner"
                 margin="normal"
-                onChange={this.handleChange('deviceName')}
-                value={deviceName}
+                onChange={this.handleChange('deviceOwner')}
+                value={deviceOwner}
                 style={Styles.textField}
               />
               <br/>

@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Web3 from 'web3';
+
 import './App.css';
+
 import RegisterForm from './components/RegisterForm';
 
 function App() {
