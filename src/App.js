@@ -35,9 +35,9 @@ function App() {
   });
 
   return (
-    <React.Fragment>
+    <div>
         <RegisterForm />
-    </React.Fragment>
+    </div>
   );
 }
 
