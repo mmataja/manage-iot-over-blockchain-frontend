@@ -36,9 +36,13 @@ export class RegisterForm extends Component {
     console.log(deviceData);
 
     const selectedWalletAddress = await window.web3.eth.getAccounts();
-    
+    console.log(selectedWalletAddress);
+
     const signature = await window.web3.utils.sha3(deviceData);
     console.log(signature);
+
+    const dataToSign = await window.web3.eth.personal.sign(deviceData, selectedWalletAddress[0]);
+    console.log("signature....", dataToSign);
 
     await axios.post("http://localhost:8000/register", {
       account: selectedWalletAddress[0],
