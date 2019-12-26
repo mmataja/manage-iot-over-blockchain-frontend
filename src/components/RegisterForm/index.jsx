@@ -25,7 +25,6 @@ export class RegisterForm extends Component {
     e.preventDefault();
 
     const { deviceOwner, deviceName, deviceFirmware, publicKey, url } = this.state;
-    
     const selectedWalletAddress = await window.web3.eth.getAccounts();
     const account = selectedWalletAddress[0];
     
@@ -33,14 +32,10 @@ export class RegisterForm extends Component {
       deviceOwner,
       deviceName,
       deviceFirmware,
-      account
+      account,
     });
 
-    const signature = await window.web3.eth.personal.sign(deviceData, selectedWalletAddress[0]);
-    console.log("signature....", signature);
-
-    const recoverAddress = await window.web3.eth.personal.ecRecover(deviceData, signature);
-    console.log("address that signed the message...", recoverAddress);
+    const signature = await window.web3.eth.accounts.sign(deviceData, account);
 
     await axios.post("http://localhost:8000/register", {
       account,
@@ -51,7 +46,6 @@ export class RegisterForm extends Component {
       deviceName,
     }).then(response => console.log(response))
       .catch(error => console.log(error));
-
   }
 
   render() {
