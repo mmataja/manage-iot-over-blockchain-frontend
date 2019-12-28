@@ -1,21 +1,18 @@
 import React from 'react';
 import Web3 from 'web3';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import './App.css';
+import { Styles } from './styles';
 
-import RegisterForm from './components/RegisterForm';
+import { RegisterForm, Dashboard } from './components';
 
 function App() {
-
-  // const [accounts, setAccounts] = useState();
 
   window.addEventListener('load', async () => {
     if (window.ethereum) {
       window.web3 = new Web3(window.ethereum);
       try {
         await window.ethereum.enable();
-        // const accounts = await window.web3.eth.getAccounts();
-        // setAccounts(accounts);
       } catch (error) {
         console.log(error);
       }
@@ -23,8 +20,6 @@ function App() {
     else if (window.web3) {
       window.web3 = new Web3(window.web3.currentProvider || window.web3.givenProvider || 'http://localhost:7545');
       try {
-        // const accounts = await window.web3.eth.getAccounts();
-        // setAccounts(accounts);
       } catch (error) {
         console.log(error);
       }
@@ -35,9 +30,14 @@ function App() {
   });
 
   return (
-    <div>
-        <RegisterForm />
-    </div>
+    <Router>
+      <div style={Styles.fullWidth}>
+        <Dashboard />
+        <Switch>
+          <Route path='/register-device' component={RegisterForm} />
+        </Switch>
+      </div>
+    </Router>
   );
 }
 

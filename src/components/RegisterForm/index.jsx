@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles'
-import { Container, AppBar, Toolbar, TextField, Button } from '@material-ui/core';
+import { Container, TextField, Button } from '@material-ui/core';
 
 import { Styles } from './styles';
 
@@ -54,11 +54,6 @@ export class RegisterForm extends Component {
     return (
       <ThemeProvider theme={theme}>
         <React.Fragment>
-          <AppBar position="static">
-            <Toolbar>
-              Register IoT Device
-            </Toolbar>
-          </AppBar>
           <Container maxWidth="sm">
             <form onSubmit={this.submitRegister}>
               <TextField 
