@@ -2,8 +2,6 @@ import React from 'react';
 import Web3 from 'web3';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import { Styles } from './styles';
-
 import { RegisterForm, Dashboard } from './components';
 
 function App() {
@@ -31,12 +29,11 @@ function App() {
 
   return (
     <Router>
-      <div style={Styles.fullWidth}>
-        <Dashboard />
-        <Switch>
-          <Route path='/register-device' component={RegisterForm} />
-        </Switch>
-      </div>
+        <Dashboard>
+          <Switch>
+            <Route exact path='/register-device' component={RegisterForm} />
+          </Switch>
+        </Dashboard>
     </Router>
   );
 }
