@@ -2,7 +2,7 @@ import React from 'react';
 import Web3 from 'web3';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import { RegisterForm, Dashboard } from './components';
+import { RegisterForm, Dashboard, Album } from './components';
 
 function App() {
 
@@ -32,6 +32,7 @@ function App() {
         <Dashboard>
           <Switch>
             <Route exact path='/register-device' component={RegisterForm} />
+            <Route exact path='/devices' component={Album} />
           </Switch>
         </Dashboard>
     </Router>
