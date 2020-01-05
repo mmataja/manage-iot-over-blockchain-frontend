@@ -1,16 +1,9 @@
-import React from 'react';
-import { 
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Container,
-  CssBaseline,
-  Grid,
-  Typography,
-} from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Button, Container, CssBaseline, Grid, } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+
+import DeviceCard from './DeviceCard';
 
 const useStyles = makeStyles(theme => ({
   heroContent: {
@@ -24,60 +17,69 @@ const useStyles = makeStyles(theme => ({
     paddingTop: theme.spacing(8),
     paddingBottom: theme.spacing(8),
   },
-  card: {
-    height: '100%',
+  loadMoreBtn: {
     display: 'flex',
-    flexDirection: 'column',
-  },
-  cardMedia: {
-    paddingTop: '56.25%', // 16:9
-  },
-  cardContent: {
-    flexGrow: 1,
-  },
+    justifyContent: 'center',
+    marginTop: theme.spacing(5)
+  }
 }));
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-export default function Album() {
+const Album = () => {
   const classes = useStyles();
+  const [page, setPage] = useState(1);
+  const [devices, setDevices] = useState(null);
+
+  useEffect(() => {
+    axios.get('http://localhost:8000/devices', {
+      params: {
+        page,
+        limit: 6
+    }})
+      .then((response) => {
+        if (devices === null) {
+          return setDevices(response.data);
+        }
+
+        const allDevices = [...devices, ...response.data];
+
+        setDevices(allDevices);
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }, [page])
+
+  const handleLoadMore = (event) => {
+    event.preventDefault();
+    setPage(page+1);
+  }
 
   return (
     <React.Fragment>
       <CssBaseline />
       <main>
         <Container className={classes.cardGrid} maxWidth="lg">
-          <Grid container spacing={5}>
-            {cards.map(card => (
-              <Grid item key={card} xs={12} sm={6} md={4}>
-                <Card className={classes.card}>
-                  <CardMedia
-                    className={classes.cardMedia}
-                    image="https://source.unsplash.com/random"
-                    title="Image title"
-                  />
-                  <CardContent className={classes.cardContent}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      Heading
-                    </Typography>
-                    <Typography>
-                      This is a media card. You can use this section to describe the content.
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small" color="primary">
-                      View
-                    </Button>
-                    <Button size="small" color="primary">
-                      Edit
-                    </Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-            ))}
+          <Grid container spacing={4}>
+            {devices !== null 
+              ? devices.map(device => (
+                <DeviceCard 
+                  key={device.id}
+                  owner={device.owner}
+                  name={device.name}
+                />
+              ))
+              : null
+            }
+          </Grid>
+          <Grid container className={classes.loadMoreBtn}>
+            <Button variant="contained" color="primary" onClick={handleLoadMore}>
+              load more
+            </Button>
           </Grid>
         </Container>
       </main>
     </React.Fragment>
   );
 }
+
+export default Album;

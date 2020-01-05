@@ -1,55 +1,77 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
+  Button,
   Card,
-  CardActionArea,
   CardActions,
   CardContent,
   CardMedia,
-  Button,
-  Typography
+  Grid,
+  Typography,
+  Divider,
 } from '@material-ui/core';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   card: {
-    maxWidth: 345,
-    marginLeft: 240,
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
   },
-  media: {
-    height: 140,
+  cardMedia: {
+    paddingTop: '56.25%', // 16:9
   },
-});
+  cardContent: {
+    flexGrow: 1,
+  },
+  cardHeading: {
+    marginBottom: 0,
+  },
+}));
 
-const DeviceCard = () => {
+const DeviceCard = ({
+  owner,
+  name,
+}) => {
   const classes = useStyles();
 
   return (
-    <Card className={classes.card}>
-      <CardActionArea>
+    <Grid item xs={12} sm={6} md={4}>
+      <Card className={classes.card}>
         <CardMedia
-          className={classes.media}
-          image="/static/images/cards/contemplative-reptile.jpg"
-          title="Contemplative Reptile"
+          className={classes.cardMedia}
+          image="https://source.unsplash.com/random"
+          title="Image title"
         />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            Lizard
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-            across all continents except Antarctica
-          </Typography>
+        <CardContent className={classes.cardContent}>
+          <Grid container item alignItems="baseline" justify="space-between">
+            <Typography gutterBottom variant="h6" className={classes.cardHeading}>
+              Name
+            </Typography>
+            <Divider orientation="vertical" />
+            <Typography  variant="overline">
+              {name}
+            </Typography>
+          </Grid>
+          <Divider />
+          <Grid container item alignItems="baseline" justify="space-between">
+            <Typography gutterBottom variant="h6" className={classes.cardHeading}>
+              Owner
+            </Typography>
+            <Typography variant="overline">
+              {owner}
+            </Typography>
+          </Grid>
         </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary">
-          Share
-        </Button>
-        <Button size="small" color="primary">
-          Learn More
-        </Button>
-      </CardActions>
-    </Card>
+        <CardActions>
+          <Button size="small" color="primary">
+            Check
+          </Button>
+          <Button size="small" color="primary">
+            Use
+          </Button>
+        </CardActions>
+      </Card>
+    </Grid>
   )
 }
 
