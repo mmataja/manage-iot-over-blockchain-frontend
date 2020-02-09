@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { RegisterForm, Dashboard, Album } from './components';
 
 function App() {
-
   window.addEventListener('load', async () => {
     if (window.ethereum) {
       window.web3 = new Web3(window.ethereum);
